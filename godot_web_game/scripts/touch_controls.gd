@@ -15,7 +15,7 @@ var _turbo_requested := false
 func _ready() -> void:
 	var should_show := force_visible or DisplayServer.is_touchscreen_available()
 	visible = should_show
-	mouse_filter = should_show ? Control.MOUSE_FILTER_PASS : Control.MOUSE_FILTER_IGNORE
+	mouse_filter = Control.MOUSE_FILTER_PASS if should_show else Control.MOUSE_FILTER_IGNORE
 	set_process_unhandled_input(should_show)
 	if not should_show:
 		return
@@ -51,13 +51,13 @@ func _touch_in_joystick_half(screen_position: Vector2) -> bool:
 func _update_move_vector(screen_position: Vector2) -> void:
 	if joystick == null:
 		return
-	var rect := joystick.get_global_rect()
-	var center := rect.position + rect.size * 0.5
-	var radius := min(rect.size.x, rect.size.y) * 0.5
+	var rect: Rect2 = joystick.get_global_rect()
+	var center: Vector2 = rect.position + rect.size * 0.5
+	var radius: float = min(rect.size.x, rect.size.y) * 0.5
 	if radius <= 0.0:
 		radius = 1.0
-	var delta := screen_position - center
-	var vector := delta / radius
+	var delta: Vector2 = screen_position - center
+	var vector: Vector2 = delta / radius
 	if vector.length() > 1.0:
 		vector = vector.normalized()
 	if vector.length() < deadzone:
@@ -68,8 +68,8 @@ func _update_move_vector(screen_position: Vector2) -> void:
 func _update_knob_visual(vector: Vector2) -> void:
 	if knob == null or joystick == null:
 		return
-	var center := joystick.size * 0.5
-	var radius := min(joystick.size.x, joystick.size.y) * 0.5 - knob.size.x * 0.5
+	var center: Vector2 = joystick.size * 0.5
+	var radius: float = min(joystick.size.x, joystick.size.y) * 0.5 - knob.size.x * 0.5
 	knob.position = center + vector * max(radius, 0.0) - knob.size * 0.5
 
 func _reset_joystick() -> void:

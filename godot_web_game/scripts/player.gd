@@ -138,7 +138,7 @@ func _get_input_vector() -> Vector2:
 		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	)
 	if _touch_controls and _touch_controls.visible:
-		var touch_vector := _touch_controls.get_move_vector()
+		var touch_vector: Vector2 = _touch_controls.get_move_vector()
 		if touch_vector != Vector2.ZERO:
 			vector = touch_vector
 	return vector
