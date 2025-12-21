@@ -23,14 +23,6 @@ func _ready() -> void:
 	if is_instance_valid(turbo_button):
 		turbo_button.pressed.connect(_on_turbo_pressed)
 
-func _gui_input(event: InputEvent) -> void:
-	if not visible:
-		return
-	if event is InputEventMouseButton:
-		_handle_mouse_button(event)
-	elif event is InputEventMouseMotion:
-		_handle_mouse_motion(event)
-
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
@@ -38,6 +30,14 @@ func _input(event: InputEvent) -> void:
 		_handle_touch(event)
 	elif event is InputEventScreenDrag:
 		_handle_drag(event)
+	elif event is InputEventMouseButton:
+		# Only handle mouse events if they're in the joystick area
+		if _touch_in_joystick_half(event.position):
+			_handle_mouse_button(event)
+	elif event is InputEventMouseMotion:
+		# Only handle mouse motion if it's in the joystick area and we're dragging
+		if _joystick_touch_id == -2 and _touch_in_joystick_half(event.position):
+			_handle_mouse_motion(event)
 
 func _handle_touch(event: InputEventScreenTouch) -> void:
 	if event.pressed:
@@ -98,7 +98,7 @@ func consume_turbo_request() -> bool:
 	return false
 
 func _handle_mouse_button(event: InputEventMouseButton) -> void:
-	if event.button_index == MOUSE_BUTTON_MASK_LEFT:
+	if event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			if _joystick_touch_id == -1 and _touch_in_joystick_half(event.position):
 				_joystick_touch_id = -2  # Use -2 to distinguish mouse input
