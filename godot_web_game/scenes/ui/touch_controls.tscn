@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/touch_controls.gd" id="1_dyvhc"]
+
+[node name="TouchControls" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.00012207
+offset_bottom = -0.000183105
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_dyvhc")
+
+[node name="Joystick" type="ColorRect" parent="."]
+clip_contents = true
+mouse_filter = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -240.0
+offset_right = 240.0
+offset_bottom = -40.0
+grow_vertical = 0
+color = Color(0.09, 0.08, 0.1, 0.72)
+corner_radius_top_left = 140
+corner_radius_top_right = 140
+corner_radius_bottom_right = 140
+corner_radius_bottom_left = 140
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.23, 0.46, 0.8)
+
+[node name="Knob" type="ColorRect" parent="Joystick"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.57, 0.84, 0.53, 0.88)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.39, 0.21, 0.75)
+
+[node name="TurboButton" type="Button" parent="."]
+custom_minimum_size = Vector2(160, 80)
+mouse_filter = 2
+anchors_preset = 4
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -180.0
+offset_right = -40.0
+offset_bottom = -60.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.95, 0.89, 1)
+theme_override_colors/font_color_pressed = Color(1, 0.95, 0.89, 1)
+theme_override_colors/font_color_hover = Color(1, 0.95, 0.89, 1)
+theme_override_fonts/font_size = 32
+text = "Turbo"

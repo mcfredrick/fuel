@@ -11,6 +11,8 @@ const TURBO_FORCE_MULTIPLIER := 1.6
 const TURBO_DRAG_REDUCTION := 0.3
 const TURBO_DURATION := 1.5
 
+@export var touch_controls_path: NodePath
+
 var fart_capacity := 100.0
 var fart_level := 100.0
 var turbo_charges := 0
@@ -24,6 +26,7 @@ var turbo_timer := 0.0
 
 @onready var fart_cloud: Node2D = $FartCloud
 @onready var turbo_aura: Node2D = $TurboAura
+var _touch_controls: TouchControls
 
 func initialize_fart_meter(initial_capacity: float) -> void:
 	fart_capacity = initial_capacity
@@ -47,6 +50,12 @@ func set_controls_enabled(enabled: bool) -> void:
 		fart_cloud.visible = false
 		_set_turbo_active(false)
 
+func _ready() -> void:
+	if touch_controls_path != NodePath(""):
+		var candidate = get_node_or_null(touch_controls_path)
+		if candidate is TouchControls:
+			_touch_controls = candidate
+
 func _physics_process(delta: float) -> void:
 	if not controls_enabled:
 		velocity = velocity.move_toward(Vector2.ZERO, DRAG * delta)
@@ -57,10 +66,7 @@ func _physics_process(delta: float) -> void:
 	_handle_turbo_input()
 	_update_turbo_timer(delta)
 
-	var input_vector := Vector2(
-		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
-		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	)
+	var input_vector := _get_input_vector()
 	var thrust_vector := Vector2.ZERO
 	if input_vector.length_squared() > 0:
 		thrust_vector = input_vector.normalized()
@@ -117,11 +123,25 @@ func _emit_turbo_charges() -> void:
 		turbo_charges_changed.emit(turbo_charges)
 
 func _handle_turbo_input() -> void:
-	if Input.is_action_just_pressed("turbo") and turbo_charges > 0 and not turbo_active:
+	var turbo_pressed := Input.is_action_just_pressed("turbo")
+	if not turbo_pressed and _touch_controls and _touch_controls.visible:
+		turbo_pressed = _touch_controls.consume_turbo_request()
+	if turbo_pressed and turbo_charges > 0 and not turbo_active:
 		turbo_charges -= 1
 		_emit_turbo_charges()
 		_set_turbo_active(true)
 		turbo_timer = TURBO_DURATION
+
+func _get_input_vector() -> Vector2:
+	var vector := Vector2(
+		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	)
+	if _touch_controls and _touch_controls.visible:
+		var touch_vector := _touch_controls.get_move_vector()
+		if touch_vector != Vector2.ZERO:
+			vector = touch_vector
+	return vector
 
 func _update_turbo_timer(delta: float) -> void:
 	if turbo_active:

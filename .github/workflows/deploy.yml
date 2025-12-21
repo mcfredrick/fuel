@@ -1,0 +1,76 @@
+name: Deploy Web Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.5.1"
+  GODOT_HEADLESS_URL: "https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64_headless.zip"
+  GODOT_TEMPLATES_URL: "https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_export_templates.tpz"
+  GODOT_BIN: "${{ runner.temp }}/godot/godot"
+  GODOT_EXPORT_TEMPLATES: "${{ runner.temp }}/godot/export_templates"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/godot/cache
+          key: godot-${{ env.GODOT_VERSION }}
+
+      - name: Install Godot Headless + export templates
+        run: |
+          set -xeuo pipefail
+          mkdir -p "${{ runner.temp }}/godot/cache" "${{ runner.temp }}/godot"
+          mkdir -p "$(dirname "${GODOT_BIN}")"
+          HEADLESS_ARCHIVE="${{ runner.temp }}/godot/cache/$(basename "${GODOT_HEADLESS_URL}")"
+
+          if [ ! -f "$HEADLESS_ARCHIVE" ]; then
+            curl -L "${GODOT_HEADLESS_URL}" -o "$HEADLESS_ARCHIVE"
+          fi
+
+          unzip -qo "$HEADLESS_ARCHIVE" -d "${{ runner.temp }}/godot"
+          mv "${{ runner.temp }}/godot"/Godot_v*_headless "${GODOT_BIN}"
+          chmod +x "${GODOT_BIN}"
+
+      - name: Install export templates
+        run: ./install_godot_export_templates.sh "${GODOT_VERSION}"
+        env:
+          GODOT_TEMPLATES_URL: "${{ env.GODOT_TEMPLATES_URL }}"
+
+      - name: Export web build
+        run: ./export_web.sh
+        env:
+          GODOT_BIN: "${{ env.GODOT_BIN }}"
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: godot_web_game/build/web
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

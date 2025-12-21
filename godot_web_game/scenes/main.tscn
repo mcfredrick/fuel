@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_jrx8h"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_s9k4n"]
+[ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="3_9p8m0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a2vfy"]
 radius = 32.0
@@ -47,6 +48,7 @@ script = ExtResource("1_jrx8h")
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(576, 324)
 script = ExtResource("2_s9k4n")
+touch_controls_path = NodePath("../HUD/TouchControls")
 
 [node name="BabyBody" type="Polygon2D" parent="Player"]
 color = Color(0.98, 0.82, 0.7, 1)
@@ -115,6 +117,8 @@ shape = SubResource("CircleShape2D_a2vfy")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 1
+
+[node name="TouchControls" parent="HUD" instance=ExtResource("3_9p8m0")]
 
 [node name="Margin" type="MarginContainer" parent="HUD"]
 offset_left = 20.0
