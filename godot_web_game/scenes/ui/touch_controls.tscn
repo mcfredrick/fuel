@@ -60,36 +60,34 @@ border_width_bottom = 2
 border_color = Color(0.4, 0.3, 0.6, 0.8)
 
 [node name="Arrows" type="Control" parent="Joystick/Knob"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -60.0
-offset_top = -60.0
-offset_right = 60.0
-offset_bottom = 60.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
 [node name="UpArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
-position = Vector2(0, -15)
+position = Vector2(40, 25)
 color = Color(0.9, 0.9, 0.9, 0.4)
 polygon = PackedVector2Array(-6, 0, 6, 0, 0, -10)
 
 [node name="DownArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
-position = Vector2(0, 15)
+position = Vector2(40, 55)
 color = Color(0.9, 0.9, 0.9, 0.4)
 polygon = PackedVector2Array(-6, 0, 6, 0, 0, 10)
 
 [node name="LeftArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
-position = Vector2(-15, 0)
+position = Vector2(25, 40)
 color = Color(0.9, 0.9, 0.9, 0.4)
 polygon = PackedVector2Array(0, -6, 0, 6, -10, 0)
 
 [node name="RightArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
-position = Vector2(15, 0)
+position = Vector2(55, 40)
 color = Color(0.9, 0.9, 0.9, 0.4)
 polygon = PackedVector2Array(0, -6, 0, 6, 10, 0)
 
