@@ -1,5 +1,8 @@
 name: Update Game Registry
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ main ]
@@ -15,7 +18,7 @@ jobs:
       category: "simulation"
       tags: "strategy, resource-management, simulation"
       thumbnail-url: "https://fuel.crap.games/assets/icon.png"
-      author: "Matt"
+      author: "ttam"
       repo-url: "https://github.com/mcfredrick/fuel"
       version: "1.0.0"
     secrets: inherit
