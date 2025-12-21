@@ -16,7 +16,7 @@ script = ExtResource("1_dyvhc")
 
 [node name="Joystick" type="ColorRect" parent="."]
 clip_contents = true
-mouse_filter = 2
+mouse_filter = 0
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -255,7 +255,7 @@ rotation = -45.0
 
 [node name="TurboButton" type="Button" parent="."]
 custom_minimum_size = Vector2(200, 200)
-mouse_filter = 2
+mouse_filter = 0
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0

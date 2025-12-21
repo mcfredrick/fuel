@@ -15,15 +15,17 @@ var _turbo_requested := false
 func _ready() -> void:
 	var should_show := force_visible or DisplayServer.is_touchscreen_available()
 	visible = should_show
-	mouse_filter = Control.MOUSE_FILTER_PASS if should_show else Control.MOUSE_FILTER_IGNORE
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_process_input(should_show)
 	if not should_show:
 		return
 	_reset_joystick()
 	if is_instance_valid(turbo_button):
 		turbo_button.pressed.connect(_on_turbo_pressed)
+	if is_instance_valid(joystick):
+		joystick.gui_input.connect(_on_joystick_input)
 
-func _input(event: InputEvent) -> void:
+func _on_joystick_input(event: InputEvent) -> void:
 	if not visible:
 		return
 	if event is InputEventScreenTouch:
@@ -31,13 +33,17 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag:
 		_handle_drag(event)
 	elif event is InputEventMouseButton:
-		# Only handle mouse events if they're in the joystick area
-		if _touch_in_joystick_half(event.position):
-			_handle_mouse_button(event)
+		# Convert local position to screen position
+		var mouse_event = event as InputEventMouseButton
+		var screen_pos = joystick.global_position + mouse_event.position
+		mouse_event.position = screen_pos
+		_handle_mouse_button(mouse_event)
 	elif event is InputEventMouseMotion:
-		# Only handle mouse motion if it's in the joystick area and we're dragging
-		if _joystick_touch_id == -2 and _touch_in_joystick_half(event.position):
-			_handle_mouse_motion(event)
+		# Convert local position to screen position
+		var motion_event = event as InputEventMouseMotion
+		var screen_pos = joystick.global_position + motion_event.position
+		motion_event.position = screen_pos
+		_handle_mouse_motion(motion_event)
 
 func _handle_touch(event: InputEventScreenTouch) -> void:
 	if event.pressed:
