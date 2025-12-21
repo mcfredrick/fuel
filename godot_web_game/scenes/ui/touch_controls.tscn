@@ -25,16 +25,16 @@ offset_top = -240.0
 offset_right = 240.0
 offset_bottom = -40.0
 grow_vertical = 0
-color = Color(0.09, 0.08, 0.1, 0.72)
-corner_radius_top_left = 140
-corner_radius_top_right = 140
-corner_radius_bottom_right = 140
-corner_radius_bottom_left = 140
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.35, 0.23, 0.46, 0.8)
+color = Color(0.1, 0.1, 0.15, 0.8)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.3, 0.5, 0.6)
 
 [node name="Knob" type="ColorRect" parent="Joystick"]
 anchors_preset = 8
@@ -48,31 +48,227 @@ offset_right = 40.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.57, 0.84, 0.53, 0.88)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
+color = Color(0.6, 0.5, 0.8, 0.7)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.25, 0.39, 0.21, 0.75)
+border_color = Color(0.4, 0.3, 0.6, 0.8)
+
+[node name="Arrows" type="Control" parent="Joystick"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UpArrow" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -25.0
+offset_right = 2.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 0.0
+
+[node name="UpArrowLeft" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -15.0
+offset_right = -2.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 45.0
+
+[node name="UpArrowRight" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -15.0
+offset_right = 12.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = -45.0
+
+[node name="DownArrow" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = 15.0
+offset_right = 2.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 0.0
+
+[node name="DownArrowLeft" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = 5.0
+offset_right = -2.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = -45.0
+
+[node name="DownArrowRight" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = 5.0
+offset_right = 12.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 45.0
+
+[node name="LeftArrow" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -2.0
+offset_right = -15.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 0.0
+
+[node name="LeftArrowTop" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -12.0
+offset_right = -5.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = -45.0
+
+[node name="LeftArrowBottom" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = 2.0
+offset_right = -5.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 45.0
+
+[node name="RightArrow" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 15.0
+offset_top = -2.0
+offset_right = 25.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 0.0
+
+[node name="RightArrowTop" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -12.0
+offset_right = 15.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = 45.0
+
+[node name="RightArrowBottom" type="ColorRect" parent="Joystick/Arrows"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = 2.0
+offset_right = 15.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.8, 0.8, 0.6)
+rotation = -45.0
 
 [node name="TurboButton" type="Button" parent="."]
-custom_minimum_size = Vector2(160, 80)
+custom_minimum_size = Vector2(200, 200)
 mouse_filter = 2
-anchors_preset = 4
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -240.0
-offset_top = -180.0
+offset_top = -240.0
 offset_right = -40.0
-offset_bottom = -60.0
+offset_bottom = -40.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 0.95, 0.89, 1)
 theme_override_colors/font_color_pressed = Color(1, 0.95, 0.89, 1)
 theme_override_colors/font_color_hover = Color(1, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 24
 text = "Turbo"

@@ -1,7 +1,7 @@
 extends Control
 class_name TouchControls
 
-@export var force_visible := false
+@export var force_visible := true
 @export_range(0.0, 1.0, 0.01) var deadzone := 0.18
 
 var _joystick_touch_id := -1
@@ -16,14 +16,22 @@ func _ready() -> void:
 	var should_show := force_visible or DisplayServer.is_touchscreen_available()
 	visible = should_show
 	mouse_filter = Control.MOUSE_FILTER_PASS if should_show else Control.MOUSE_FILTER_IGNORE
-	set_process_unhandled_input(should_show)
+	set_process_input(should_show)
 	if not should_show:
 		return
 	_reset_joystick()
 	if is_instance_valid(turbo_button):
 		turbo_button.pressed.connect(_on_turbo_pressed)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _gui_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventMouseButton:
+		_handle_mouse_button(event)
+	elif event is InputEventMouseMotion:
+		_handle_mouse_motion(event)
+
+func _input(event: InputEvent) -> void:
 	if not visible:
 		return
 	if event is InputEventScreenTouch:
@@ -88,3 +96,17 @@ func consume_turbo_request() -> bool:
 		_turbo_requested = false
 		return true
 	return false
+
+func _handle_mouse_button(event: InputEventMouseButton) -> void:
+	if event.button_index == MOUSE_BUTTON_MASK_LEFT:
+		if event.pressed:
+			if _joystick_touch_id == -1 and _touch_in_joystick_half(event.position):
+				_joystick_touch_id = -2  # Use -2 to distinguish mouse input
+				_update_move_vector(event.position)
+		else:
+			if _joystick_touch_id == -2:
+				_reset_joystick()
+
+func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
+	if _joystick_touch_id == -2 and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		_update_move_vector(event.position)

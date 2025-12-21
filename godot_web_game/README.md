@@ -3,8 +3,29 @@
 A simple 2D game built with Godot Engine that can be exported to web.
 
 ## Controls
+
+### Desktop
 - **Arrow Keys**: Move the player
 - **Space**: Spend a turbo star for a short mega-fart burst
+
+### Touchscreen (Mobile)
+- **Left Joystick**: Move the player in any direction
+- **Turbo Button**: Spend a turbo star for a short mega-fart burst
+
+### Testing Touch Controls on Desktop
+The game includes touch controls that can be tested on desktop computers:
+
+```bash
+# Run with touch controls enabled (default for testing)
+cd godot_web_game
+godot --path .
+```
+
+The touch controls will be visible by default and can be tested with mouse input:
+- Click and drag on the left joystick area to move
+- Click the turbo button in the bottom-right corner
+
+To disable touch controls for desktop testing, set `force_visible` to `false` in the TouchControls node properties.
 
 ## How to Run
 
