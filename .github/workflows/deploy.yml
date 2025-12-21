@@ -17,8 +17,8 @@ concurrency:
 
 env:
   GODOT_VERSION: "4.5.1"
-  GODOT_HEADLESS_URL: "https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64_headless.zip"
-  GODOT_TEMPLATES_URL: "https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_export_templates.tpz"
+  GODOT_HEADLESS_URL: "https://downloads.godotengine.org/?version=4.5.1&flavor=stable&slug=linux.x86_64.zip&platform=linux.64"
+  GODOT_TEMPLATES_URL: "https://downloads.godotengine.org/?version=4.5.1&flavor=stable&slug=export_templates.tpz&platform=templates"
 
 jobs:
   build:
