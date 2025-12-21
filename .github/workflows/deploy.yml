@@ -19,8 +19,6 @@ env:
   GODOT_VERSION: "4.5.1"
   GODOT_HEADLESS_URL: "https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64_headless.zip"
   GODOT_TEMPLATES_URL: "https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_export_templates.tpz"
-  GODOT_BIN: "${{ runner.temp }}/godot/godot"
-  GODOT_EXPORT_TEMPLATES: "${{ runner.temp }}/godot/export_templates"
 
 jobs:
   build:
@@ -48,6 +46,8 @@ jobs:
           unzip -qo "$HEADLESS_ARCHIVE" -d "${{ runner.temp }}/godot"
           mv "${{ runner.temp }}/godot"/Godot_v*_headless "${GODOT_BIN}"
           chmod +x "${GODOT_BIN}"
+        env:
+          GODOT_BIN: "${{ runner.temp }}/godot/godot"
 
       - name: Install export templates
         run: ./install_godot_export_templates.sh "${GODOT_VERSION}"
@@ -57,7 +57,7 @@ jobs:
       - name: Export web build
         run: ./export_web.sh
         env:
-          GODOT_BIN: "${{ env.GODOT_BIN }}"
+          GODOT_BIN: "${{ runner.temp }}/godot/godot"
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
