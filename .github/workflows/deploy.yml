@@ -35,16 +35,20 @@ jobs:
       - name: Install Godot Headless + export templates
         run: |
           set -xeuo pipefail
-          mkdir -p "${{ runner.temp }}/godot/cache" "${{ runner.temp }}/godot"
+          GODOT_ROOT="${{ runner.temp }}/godot"
+          GODOT_CACHE="${GODOT_ROOT}/cache"
+          mkdir -p "${GODOT_CACHE}" "${GODOT_ROOT}"
           mkdir -p "$(dirname "${GODOT_BIN}")"
-          HEADLESS_ARCHIVE="${{ runner.temp }}/godot/cache/$(basename "${GODOT_HEADLESS_URL}")"
+          ARCHIVE_NAME="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          EXTRACTED_NAME="Godot_v${GODOT_VERSION}-stable_linux.x86_64"
+          HEADLESS_ARCHIVE="${GODOT_CACHE}/${ARCHIVE_NAME}"
 
           if [ ! -f "$HEADLESS_ARCHIVE" ]; then
             curl -L "${GODOT_HEADLESS_URL}" -o "$HEADLESS_ARCHIVE"
           fi
 
-          unzip -qo "$HEADLESS_ARCHIVE" -d "${{ runner.temp }}/godot"
-          mv "${{ runner.temp }}/godot"/Godot_v*_headless "${GODOT_BIN}"
+          unzip -qo "$HEADLESS_ARCHIVE" -d "${GODOT_ROOT}"
+          mv "${GODOT_ROOT}/${EXTRACTED_NAME}" "${GODOT_BIN}"
           chmod +x "${GODOT_BIN}"
         env:
           GODOT_BIN: "${{ runner.temp }}/godot/godot"
