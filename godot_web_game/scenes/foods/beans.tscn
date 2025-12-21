@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/food.gd" id="1_food"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bowl"]
+radius = 18.0
+
+[node name="Food" type="Area2D"]
+script = ExtResource("1_food")
+nutrition = 20
+hover_distance = 4.5
+
+[node name="Bowl" type="Polygon2D" parent="."]
+color = Color(0.92, 0.92, 0.98, 1)
+polygon = PackedVector2Array(-22, -4, 22, -4, 18, 10, -18, 10)
+
+[node name="Beans" type="Polygon2D" parent="."]
+position = Vector2(0, -6)
+color = Color(0.53, 0.27, 0.16, 1)
+polygon = PackedVector2Array(-18, -2, 18, -2, 16, 4, -16, 4)
+
+[node name="Steam" type="Line2D" parent="."]
+position = Vector2(0, -18)
+points = PackedVector2Array(-6, 6, -2, 0, 2, 6, 6, 0)
+width = 2.0
+antialiased = true
+
+default_color = Color(0.9, 0.9, 0.9, 0.7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bowl")
