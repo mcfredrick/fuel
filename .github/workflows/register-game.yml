@@ -1,0 +1,21 @@
+name: Update Game Registry
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  update-registry:
+    uses: mcfredrick/crap_games/.github/workflows/update-registry.yml@main
+    with:
+      game-name: "Fuel"
+      subdomain: "fuel"
+      description: "A strategic resource management game where you optimise fuel production and consumption across multiple facilities."
+      category: "simulation"
+      tags: "strategy, resource-management, simulation"
+      thumbnail-url: "https://fuel.crap.games/assets/icon.png"
+      author: "Matt"
+      repo-url: "https://github.com/mcfredrick/fuel"
+      version: "1.0.0"
+    secrets: inherit
