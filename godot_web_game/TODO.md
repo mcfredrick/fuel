@@ -7,6 +7,7 @@
 [ ] Add scrolling background so you can travel around to locations offscreen
 [ ] Add different locations with unique challenges and environments including themed food, obstacles, objectives, and cats
 [ ] Figure out how to host the game online ideally on GitHub Pages
+[ ] Add a leaderboard where players can enter their initials when they get a spot in the top ten
 [ ] Set up CI/CD pipeline for automated builds
 [ ] Test game on different browsers and devices
 [ ] Create a README with game instructions and setup guide
