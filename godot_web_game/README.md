@@ -10,6 +10,12 @@ A simple 2D game built with Godot Engine that can be exported to web.
 
 1. Open the project in Godot Engine
 2. Click the "Play" button in the top-right corner
+3. **Or from the terminal:**  
+   ```bash
+   cd godot_web_game
+   godot --path .
+   ```
+   (Add `--headless` if you only need to export assets.)
 
 ## How to Export for Web
 
