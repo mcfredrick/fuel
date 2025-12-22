@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-godot:
-    uses: mcfredrick/crap_games/.github/workflows/deploy-godot-web.yml@main
+    uses: mcfredrick/crap_games/.github/workflows/deploy_godot_web.yml@main
     with:
       project_dir: "godot_web_game"
       export_preset: "Web"
