@@ -6,35 +6,6 @@
 	<link id='-gd-engine-icon' rel='icon' type='image/png' href='favicon.png' />
 	<title>$GODOT_PROJECT_NAME</title>
 	<style type='text/css'>
-
-		#exampleImage { cursor:zoom-in; }
-		#exampleImage:-webkit-full-screen { cursor:zoom-out; }
-		#exampleImage:-moz-full-screen { cursor:zoom-out; }
-		#exampleImage:-ms-fullscreen { cursor:zoom-out; }
-		#exampleImage:fullscreen { cursor:zoom-out; }
-        :-moz-any-link:focus {
-            outline: none;
-        }
-        .rotate180 {
-            -webkit-transform: rotate(180deg);
-            -moz-transform: rotate(180deg);
-            -o-transform: rotate(180deg);
-            -ms-transform: rotate(180deg);
-            transform: rotate(180deg);
-        }
-        
-        .rotate0 {
-            -webkit-transform: rotate(0deg);
-            -moz-transform: rotate(0deg);
-            -o-transform: rotate(0deg);
-            -ms-transform: rotate(0deg);
-            transform: rotate(0deg);
-        }
-        
-        button {
-            outline:none;  
-        }
-
 		body {
 			touch-action: none;
 			margin: 0;
@@ -63,10 +34,29 @@
 			box-shadow: 0 0 1px 1px #2f2d35;
 		}
 
+		/* Fullscreen button */
+		#fullscreen-btn {
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 99;
+			border: 0;
+			background: transparent;
+			cursor: pointer;
+			padding: 4px;
+		}
 
-		/* Status display
-		 * ============== */
+		.fullscreen-icon {
+			width: 32px;
+			height: 32px;
+			fill: rgba(0, 0, 0, 0.2);
+			stroke: white;
+			stroke-width: 1.5;
+			border-radius: 4px;
+			display: block;
+		}
 
+		/* Status display */
 		#status {
 			position: absolute;
 			left: 0;
@@ -76,7 +66,6 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			/* don't consume click events - make children visible explicitly */
 			visibility: hidden;
 		}
 
@@ -147,16 +136,16 @@ $GODOT_HEAD_INCLUDE
 		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
 	</canvas>
-<div style="z-index:99;position:absolute;top:0;right:0;">
-  <button id="btnFullscreen" type="button" style="border:0; background:transparent; cursor:pointer; padding:4px;" aria-label="Toggle fullscreen">
-    <svg id="fullscreen_icon" class="fullscreen-icon" width="32" height="32" viewBox="0 0 24 24" fill="rgba(0, 0, 0, 0.2)" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="border-radius: 4px; display: block;">
-      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-    </svg>
-    <svg id="exit_fullscreen_icon" class="exit-fullscreen-icon" width="32" height="32" viewBox="0 0 24 24" fill="rgba(0, 0, 0, 0.2)" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="border-radius: 4px; display: none;">
-      <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
-    </svg>
-</button>
-</div>
+
+	<button id="fullscreen-btn" type="button" aria-label="Toggle fullscreen">
+		<svg id="enter-fs" class="fullscreen-icon" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+		</svg>
+		<svg id="exit-fs" class="fullscreen-icon" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+			<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
+		</svg>
+	</button>
+
 	<div id='status'>
 		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
 		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
@@ -263,7 +252,6 @@ $GODOT_HEAD_INCLUDE
 							statusProgressInner.style.width = current/total * 100 + '%';
 							setStatusMode('progress');
 							if (current === total) {
-								// wait for progress bar animation
 								setTimeout(() => {
 									setStatusMode('indeterminate');
 								}, 500);
@@ -279,77 +267,63 @@ $GODOT_HEAD_INCLUDE
 			}
 		})();
 	//]]></script>
-<script>
-	function rotate(div) {
-  var className = div.getAttribute("class");
-  if(className=="rotate0") {
-    div.className = "rotate180";
-  } else {
-    div.className = "rotate0";
-  }
-}
 
-function toggleFullscreen(elem) {
-  const canvas = document.getElementById('canvas');
-  const fullscreenIcon = document.getElementById('fullscreen_icon');
-  const exitFullscreenIcon = document.getElementById('exit_fullscreen_icon');
-  
-  if (!document.fullscreenElement) {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen().then(() => {
-        fullscreenIcon.style.display = 'none';
-        exitFullscreenIcon.style.display = 'block';
-        canvas.focus();
-      });
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen().then(() => {
-        fullscreenIcon.style.display = 'none';
-        exitFullscreenIcon.style.display = 'block';
-        canvas.focus();
-      });
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen().then(() => {
-        fullscreenIcon.style.display = 'none';
-        exitFullscreenIcon.style.display = 'block';
-        canvas.focus();
-      });
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen().then(() => {
-        fullscreenIcon.style.display = 'block';
-        exitFullscreenIcon.style.display = 'none';
-        canvas.focus();
-      });
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen().then(() => {
-        fullscreenIcon.style.display = 'block';
-        exitFullscreenIcon.style.display = 'none';
-        canvas.focus();
-      });
-    }
-  }
-}
+	<script>
+		// Simplified fullscreen toggle
+		const btn = document.getElementById('fullscreen-btn');
+		const enterIcon = document.getElementById('enter-fs');
+		const exitIcon = document.getElementById('exit-fs');
+		const canvas = document.getElementById('canvas');
 
-// Handle fullscreen change events to update icon when user uses browser controls
-document.addEventListener('fullscreenchange', () => {
-  const fullscreenIcon = document.getElementById('fullscreen_icon');
-  const exitFullscreenIcon = document.getElementById('exit_fullscreen_icon');
-  
-  if (document.fullscreenElement) {
-    fullscreenIcon.style.display = 'none';
-    exitFullscreenIcon.style.display = 'block';
-  } else {
-    fullscreenIcon.style.display = 'block';
-    exitFullscreenIcon.style.display = 'none';
-  }
-});
+		function updateIcons() {
+			const isFullscreen = !!(document.fullscreenElement || 
+				document.webkitFullscreenElement || 
+				document.mozFullScreenElement || 
+				document.msFullscreenElement);
+			
+			enterIcon.style.display = isFullscreen ? 'none' : 'block';
+			exitIcon.style.display = isFullscreen ? 'block' : 'none';
+		}
 
-// Remove the old rotate function call from the button
-const fullscreenButton = document.getElementById('btnFullscreen');
-fullscreenButton.addEventListener('click', function() {
-  toggleFullscreen(document.documentElement);
-});
+		btn.addEventListener('click', function() {
+			const isFullscreen = !!(document.fullscreenElement || 
+				document.webkitFullscreenElement || 
+				document.mozFullScreenElement || 
+				document.msFullscreenElement);
+
+			if (!isFullscreen) {
+				const elem = document.documentElement;
+				if (elem.requestFullscreen) {
+					elem.requestFullscreen();
+				} else if (elem.webkitRequestFullscreen) {
+					elem.webkitRequestFullscreen();
+				} else if (elem.mozRequestFullScreen) {
+					elem.mozRequestFullScreen();
+				} else if (elem.msRequestFullscreen) {
+					elem.msRequestFullscreen();
+				}
+			} else {
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				} else if (document.webkitExitFullscreen) {
+					document.webkitExitFullscreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.msExitFullscreen) {
+					document.msExitFullscreen();
+				}
+			}
+			canvas.focus();
+		});
+
+		// Listen for fullscreen changes (user pressing F11/Esc)
+		document.addEventListener('fullscreenchange', updateIcons);
+		document.addEventListener('webkitfullscreenchange', updateIcons);
+		document.addEventListener('mozfullscreenchange', updateIcons);
+		document.addEventListener('MSFullscreenChange', updateIcons);
+
+		// Initialize icon state
+		updateIcons();
 	</script>
 </body>
 </html>
