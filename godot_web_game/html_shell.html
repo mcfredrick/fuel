@@ -2,10 +2,20 @@
 <html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
 <head>
 	<meta charset='utf-8' />
-	<meta name='viewport' content='width=device-width, user-scalable=no' />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover' />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen" />
 	<link id='-gd-engine-icon' rel='icon' type='image/png' href='favicon.png' />
+	<link rel="apple-touch-icon" href="favicon.png" />
 	<title>$GODOT_PROJECT_NAME</title>
 	<style type='text/css'>
+		html, body {
+			overflow: hidden;
+			height: 100%;
+			width: 100%;
+			position: fixed;
+		}
+
 		body {
 			touch-action: none;
 			margin: 0;
@@ -46,6 +56,13 @@
 			padding: 4px;
 		}
 
+		/* Hide button on iOS standalone mode */
+		@media (display-mode: standalone) {
+			#fullscreen-btn {
+				display: none;
+			}
+		}
+
 		.fullscreen-icon {
 			width: 32px;
 			height: 32px;
@@ -54,6 +71,34 @@
 			stroke-width: 1.5;
 			border-radius: 4px;
 			display: block;
+		}
+
+		/* iOS help message */
+		#ios-help {
+			display: none;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: rgba(0, 0, 0, 0.9);
+			color: white;
+			padding: 20px;
+			border-radius: 8px;
+			max-width: 300px;
+			text-align: center;
+			z-index: 1000;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		}
+
+		#ios-help button {
+			margin-top: 15px;
+			padding: 10px 20px;
+			background: #007aff;
+			color: white;
+			border: none;
+			border-radius: 8px;
+			font-size: 16px;
+			cursor: pointer;
 		}
 
 		/* Status display */
@@ -145,6 +190,19 @@ $GODOT_HEAD_INCLUDE
 			<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
 		</svg>
 	</button>
+
+	<div id="ios-help">
+		<div style="font-size: 18px; margin-bottom: 10px;">📱 For Fullscreen on iOS</div>
+		<div style="font-size: 14px; line-height: 1.5;">
+			1. Tap the Share button<br/>
+			2. Select "Add to Home Screen"<br/>
+			3. Launch from your home screen<br/>
+			4. Send Apple a thank you note for
+			   knowing what you want better
+			   than you do.
+		</div>
+		<button id="ios-help-close">Got it</button>
+	</div>
 
 	<div id='status'>
 		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
@@ -269,11 +327,27 @@ $GODOT_HEAD_INCLUDE
 	//]]></script>
 
 	<script>
-		// Simplified fullscreen toggle
+		// Detect iOS
+		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+			(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+		const isStandalone = window.navigator.standalone === true || 
+			window.matchMedia('(display-mode: standalone)').matches;
+
 		const btn = document.getElementById('fullscreen-btn');
 		const enterIcon = document.getElementById('enter-fs');
 		const exitIcon = document.getElementById('exit-fs');
 		const canvas = document.getElementById('canvas');
+		const iosHelp = document.getElementById('ios-help');
+		const iosHelpClose = document.getElementById('ios-help-close');
+
+		// Hide iOS help on close
+		iosHelpClose.addEventListener('click', function() {
+			iosHelp.style.display = 'none';
+			// Remember user saw the message
+			try {
+				localStorage.setItem('ios-help-seen', 'true');
+			} catch(e) {}
+		});
 
 		function updateIcons() {
 			const isFullscreen = !!(document.fullscreenElement || 
@@ -286,6 +360,23 @@ $GODOT_HEAD_INCLUDE
 		}
 
 		btn.addEventListener('click', function() {
+			// iOS Safari doesn't support fullscreen API
+			if (isIOS && !isStandalone) {
+				// Show help message if not seen before
+				try {
+					if (!localStorage.getItem('ios-help-seen')) {
+						iosHelp.style.display = 'block';
+					}
+				} catch(e) {
+					iosHelp.style.display = 'block';
+				}
+				
+				// Try to hide address bar by scrolling
+				window.scrollTo(0, 1);
+				return;
+			}
+
+			// Standard fullscreen for desktop and Android
 			const isFullscreen = !!(document.fullscreenElement || 
 				document.webkitFullscreenElement || 
 				document.mozFullScreenElement || 
@@ -324,6 +415,15 @@ $GODOT_HEAD_INCLUDE
 
 		// Initialize icon state
 		updateIcons();
+
+		// Hide address bar on iOS on page load
+		if (isIOS) {
+			window.addEventListener('load', function() {
+				setTimeout(function() {
+					window.scrollTo(0, 1);
+				}, 0);
+			});
+		}
 	</script>
 </body>
 </html>
