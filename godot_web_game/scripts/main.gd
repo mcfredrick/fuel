@@ -63,6 +63,12 @@ func _ready() -> void:
 	area_label.text = area.name
 	_add_growth(0.0)
 	_show_banner(area.intro)
+	var hints := Hints.new()
+	hints.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hints.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ui.add_child(hints)
+	ui.move_child(hints, fade.get_index())
+	hints.setup(player, $HUD/TouchControls, debug.has("hints"))
 	_fade_in()
 	DebugArgs.apply(debug, self)
 

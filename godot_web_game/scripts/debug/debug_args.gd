@@ -7,6 +7,7 @@
 ##   --thrust=<x,y>    hold that direction (shows the fart puffs)
 ##   --gameover        run the tank dry
 ##   --touch           show the touch controls on desktop
+##   --hints           show the first-time hints even if they were seen
 ##   --shot=<png>      save a screenshot after --wait seconds (default 1.5) and quit
 class_name DebugArgs
 
