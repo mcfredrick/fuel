@@ -1,0 +1,50 @@
+[
+	{
+		"id": "nursery",
+		"name": "The Nursery",
+		"intro": "Bust out of the nursery!",
+		"floor": "nursery",
+		"size": [1800, 1100],
+		"goal": 150,
+		"food_count": 14,
+		"foods": ["banana_mash", "peas_pouch", "broccoli", "beans", "spicy_chili"],
+		"props": {"blocks": 5, "teddy": 4, "rocking_horse": 3, "toy_chest": 2},
+		"exit": {"sprite": "nursery_door", "size": 150, "at": [900, 90]}
+	},
+	{
+		"id": "house",
+		"name": "The House",
+		"intro": "Wreck the living room on your way out.",
+		"floor": "house",
+		"size": [2300, 1400],
+		"goal": 260,
+		"food_count": 16,
+		"foods": ["banana_mash", "broccoli", "beans", "spicy_chili", "taco", "pizza"],
+		"props": {"lamp": 5, "vase": 5, "armchair": 3, "tv": 3, "fridge": 2},
+		"exit": {"sprite": "front_door", "size": 160, "at": [2180, 700]}
+	},
+	{
+		"id": "neighborhood",
+		"name": "The Neighborhood",
+		"intro": "The cul-de-sac never saw it coming.",
+		"floor": "neighborhood",
+		"size": [2800, 1700],
+		"goal": 380,
+		"food_count": 18,
+		"foods": ["beans", "spicy_chili", "taco", "pizza", "hot_dog", "ice_cream"],
+		"props": {"mailbox": 6, "hydrant": 6, "fence": 4, "tree": 4, "car": 3},
+		"exit": {"sprite": "highway_sign", "size": 160, "at": [1400, 1580]}
+	},
+	{
+		"id": "world",
+		"name": "The World",
+		"intro": "Eat your way across the planet.",
+		"floor": "world",
+		"size": [3200, 2000],
+		"goal": 520,
+		"food_count": 20,
+		"foods": ["spicy_chili", "pizza", "hot_dog", "ice_cream", "burrito", "donut"],
+		"props": {"cottage": 8, "water_tower": 6, "radio_mast": 4, "skyscraper": 5},
+		"exit": {}
+	}
+]

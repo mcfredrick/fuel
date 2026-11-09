@@ -1,24 +1,41 @@
+## A snack bobbing on the floor. Built from data/foods.json.
+class_name Food
 extends Area2D
 
-signal eaten(nutrition, turbo_reward)
+signal eaten(food: Food)
 
-@export var nutrition := 15
-@export var turbo_reward := 0
-@export var hover_distance := 6.0
-@export var hover_speed := 0.9
+var id := ""
+var nutrition := 0
+var turbo_reward := 0
 
-func _ready():
+
+static func create(food_id: String) -> Food:
+	var spec: Dictionary = GameData.foods()[food_id]
+	var food := Food.new()
+	food.id = food_id
+	food.nutrition = spec.nutrition
+	food.turbo_reward = spec.get("turbo", 0)
+	var sprite := Sprite2D.new()
+	sprite.texture = GameData.sprite(food_id)
+	var size: float = spec.size
+	sprite.scale = Vector2.ONE * size / sprite.texture.get_width()
+	food.add_child(sprite)
+	var shape := CollisionShape2D.new()
+	shape.shape = CircleShape2D.new()
+	shape.shape.radius = size * 0.4
+	food.add_child(shape)
+	return food
+
+
+func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	_start_hover_animation()
+	var sprite: Sprite2D = get_child(0)
+	var tween := create_tween().set_loops()
+	tween.tween_property(sprite, "position:y", -7.0, 0.9).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(sprite, "position:y", 0.0, 0.9).set_trans(Tween.TRANS_SINE)
 
-func _on_body_entered(body):
-	if body.name == "Player":
-		eaten.emit(nutrition, turbo_reward)
-		call_deferred("queue_free")
 
-func _start_hover_animation():
-	var tween = create_tween().set_loops()
-	var start_y := position.y
-	tween.tween_property(self, "position:y", start_y - hover_distance, hover_speed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(self, "position:y", start_y + hover_distance, hover_speed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(self, "position:y", start_y, hover_speed * 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+func _on_body_entered(body: Node2D) -> void:
+	if body is Player:
+		eaten.emit(self)
+		queue_free()

@@ -1,6 +1,42 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/touch_controls.gd" id="1_dyvhc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pad"]
+bg_color = Color(1, 0.98, 0.92, 0.35)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1, 0.06, 0.14, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knob"]
+bg_color = Color(0.65, 0.88, 0.55, 0.95)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1, 0.06, 0.14, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_turbo"]
+bg_color = Color(1, 0.82, 0.25, 0.9)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1, 0.06, 0.14, 1)
 
 [node name="TouchControls" type="Control"]
 layout_mode = 3
@@ -14,7 +50,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_dyvhc")
 
-[node name="Joystick" type="ColorRect" parent="."]
+[node name="Joystick" type="Panel" parent="."]
 clip_contents = true
 mouse_filter = 0
 anchors_preset = 2
@@ -25,18 +61,9 @@ offset_top = -240.0
 offset_right = 240.0
 offset_bottom = -40.0
 grow_vertical = 0
-color = Color(0.1, 0.1, 0.15, 0.8)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.4, 0.3, 0.5, 0.6)
+theme_override_styles/panel = SubResource("StyleBoxFlat_pad")
 
-[node name="Knob" type="ColorRect" parent="Joystick"]
+[node name="Knob" type="Panel" parent="Joystick"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -48,16 +75,8 @@ offset_right = 40.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.6, 0.5, 0.8, 0.7)
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.4, 0.3, 0.6, 0.8)
+theme_override_styles/panel = SubResource("StyleBoxFlat_knob")
+mouse_filter = 2
 
 [node name="Arrows" type="Control" parent="Joystick/Knob"]
 anchors_preset = 15
@@ -73,22 +92,22 @@ mouse_filter = 2
 
 [node name="UpArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
 position = Vector2(40, 25)
-color = Color(0.9, 0.9, 0.9, 0.4)
+color = Color(0.1, 0.06, 0.14, 0.6)
 polygon = PackedVector2Array(-6, 0, 6, 0, 0, -10)
 
 [node name="DownArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
 position = Vector2(40, 55)
-color = Color(0.9, 0.9, 0.9, 0.4)
+color = Color(0.1, 0.06, 0.14, 0.6)
 polygon = PackedVector2Array(-6, 0, 6, 0, 0, 10)
 
 [node name="LeftArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
 position = Vector2(25, 40)
-color = Color(0.9, 0.9, 0.9, 0.4)
+color = Color(0.1, 0.06, 0.14, 0.6)
 polygon = PackedVector2Array(0, -6, 0, 6, -10, 0)
 
 [node name="RightArrow" type="Polygon2D" parent="Joystick/Knob/Arrows"]
 position = Vector2(55, 40)
-color = Color(0.9, 0.9, 0.9, 0.4)
+color = Color(0.1, 0.06, 0.14, 0.6)
 polygon = PackedVector2Array(0, -6, 0, 6, 10, 0)
 
 [node name="TurboButton" type="Button" parent="."]
@@ -105,8 +124,12 @@ offset_right = -40.0
 offset_bottom = -40.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_colors/font_color = Color(1, 0.95, 0.89, 1)
-theme_override_colors/font_color_pressed = Color(1, 0.95, 0.89, 1)
-theme_override_colors/font_color_hover = Color(1, 0.95, 0.89, 1)
+theme_override_colors/font_color = Color(0.1, 0.06, 0.14, 1)
+theme_override_colors/font_color_pressed = Color(0.1, 0.06, 0.14, 1)
+theme_override_colors/font_color_hover = Color(0.1, 0.06, 0.14, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_turbo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_turbo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_turbo")
+theme_override_styles/focus = SubResource("StyleBoxFlat_turbo")
 theme_override_font_sizes/font_size = 24
-text = "Turbo"
+text = "TURBO!"

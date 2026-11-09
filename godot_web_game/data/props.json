@@ -1,0 +1,20 @@
+{
+	"blocks": {"toughness": 0, "points": 10, "size": 90},
+	"teddy": {"toughness": 0, "points": 12, "size": 95},
+	"rocking_horse": {"toughness": 1, "points": 22, "size": 130},
+	"toy_chest": {"toughness": 2, "points": 35, "size": 140, "drops": ["banana_mash", "peas_pouch"]},
+	"lamp": {"toughness": 0, "points": 12, "size": 110},
+	"vase": {"toughness": 0, "points": 10, "size": 85},
+	"armchair": {"toughness": 1, "points": 25, "size": 130},
+	"tv": {"toughness": 1, "points": 28, "size": 120},
+	"fridge": {"toughness": 2, "points": 40, "size": 165, "drops": ["pizza", "taco", "beans"]},
+	"mailbox": {"toughness": 0, "points": 14, "size": 85},
+	"hydrant": {"toughness": 0, "points": 12, "size": 65},
+	"fence": {"toughness": 1, "points": 24, "size": 140},
+	"tree": {"toughness": 1, "points": 26, "size": 150},
+	"car": {"toughness": 2, "points": 45, "size": 140, "drops": ["hot_dog", "ice_cream"]},
+	"cottage": {"toughness": 0, "points": 18, "size": 75},
+	"water_tower": {"toughness": 0, "points": 20, "size": 85},
+	"radio_mast": {"toughness": 1, "points": 30, "size": 110},
+	"skyscraper": {"toughness": 2, "points": 55, "size": 150, "drops": ["burrito", "donut"]}
+}

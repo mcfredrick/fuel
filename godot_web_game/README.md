@@ -38,6 +38,22 @@ To disable touch controls for desktop testing, set `force_visible` to `false` in
    ```
    (Add `--headless` if you only need to export assets.)
 
+## Development
+
+Design notes live in `docs/DESIGN.md`. Content (areas, foods, props) is data in
+`godot_web_game/data/*.json`; floors are shaders in `godot_web_game/shaders/floor_<area>.gdshader`.
+
+| Task | Command |
+| --- | --- |
+| All checks (CI runs this before deploy) | `./test.sh` (repo root) |
+| Screenshot | `godot --path godot_web_game --resolution 1152x648 -- --shot=out.png [--area=house] [--seed=1] [--growth=0.5] [--smash=2] [--turbo] [--thrust=1,0] [--gameover] [--touch] [--wait=1.5]` (flags documented in `scripts/debug/debug_args.gd`) |
+| Re-render the baby | `/Applications/Blender.app/Contents/MacOS/Blender -b --python blender/baby.py -- [stage ...]` |
+| Re-render food, props, exits, effects | `/Applications/Blender.app/Contents/MacOS/Blender -b --python blender/sprites.py -- [name ...]` |
+
+Rendered art in `godot_web_game/assets/` is committed so the game builds without Blender. Run
+`godot --headless --path godot_web_game --import` after re-rendering. The comic-ink look
+(`blender/ink.py`) follows Starship Tinkerer's portraits.
+
 ## How to Export for Web
 
 ### 1. Install export templates (one-time / per-version)

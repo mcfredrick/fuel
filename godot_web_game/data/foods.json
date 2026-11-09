@@ -1,0 +1,13 @@
+{
+	"banana_mash": {"nutrition": 14, "size": 60},
+	"peas_pouch": {"nutrition": 12, "size": 55},
+	"broccoli": {"nutrition": 25, "size": 62},
+	"beans": {"nutrition": 20, "size": 62},
+	"spicy_chili": {"nutrition": 10, "turbo": 1, "size": 58},
+	"taco": {"nutrition": 18, "size": 62},
+	"pizza": {"nutrition": 22, "size": 62},
+	"hot_dog": {"nutrition": 24, "size": 66},
+	"ice_cream": {"nutrition": 16, "size": 60},
+	"burrito": {"nutrition": 30, "size": 66},
+	"donut": {"nutrition": 26, "size": 62}
+}

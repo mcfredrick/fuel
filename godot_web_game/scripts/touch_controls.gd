@@ -13,7 +13,7 @@ var _turbo_requested := false
 @onready var turbo_button: Button = $TurboButton
 
 func _ready() -> void:
-	var should_show := force_visible or DisplayServer.is_touchscreen_available()
+	var should_show := force_visible or DisplayServer.is_touchscreen_available() or "--touch" in OS.get_cmdline_user_args()
 	visible = should_show
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_process_input(should_show)
